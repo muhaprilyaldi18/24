@@ -18,49 +18,68 @@
     h1 {
       font-size: 2.5em;
       color: #d63384;
-      margin-top: 100px;
-      margin-bottom: 24px;
+      margin-top: 70px;
+      margin-bottom: 22px;
     }
     h2 {
       font-size: 1.4em;
       font-weight: bold;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       margin-top: 0;
     }
     #countdown {
-      margin-top: 26px;
+      margin-top: 22px;
       font-size: 1.5em;
       color: #555;
+      margin-bottom: 30px;
+    }
+    .galeri-foto {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px auto 0 auto;
+      flex-wrap: wrap;
+    }
+    .fotosayang {
+      max-width: 220px;
+      max-height: 320px;
+      border-radius: 18px;
+      box-shadow: 0 3px 24px rgba(255,105,180,0.28);
+      transition: transform .18s;
+      border: 2px solid #fff;
+      background: #fff;
+    }
+    .fotosayang:hover {
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow: 0 8px 32px rgba(214,51,132,0.16);
+      border: 2px solid #ff69b4;
     }
     .heart {
       position: absolute;
-      height: 20px;
-      width: 20px;
+      height: 22px; width: 22px;
+      opacity: 0.82;
+      top: 0; left: 0;
       background-color: #ff69b4;
-      opacity: 0.8;
-      left: 0;
-      top: 0;
       transform: rotate(-45deg);
-      animation: float 8s linear infinite;
+      animation: float 7s linear infinite;
     }
-    .heart:before,
-    .heart:after {
+    .heart:before, .heart:after {
       content: "";
       position: absolute;
-      height: 20px;
-      width: 20px;
-      background-color: #ff69b4;
+      height: 22px;
+      width: 22px;
+      background-color: inherit;
       border-radius: 50%;
     }
-    .heart:before { top: -10px; left: 0; }
-    .heart:after { left: 10px; top: 0; }
+    .heart:before { top: -11px; left: 0; }
+    .heart:after { left: 11px; top: 0; }
     @keyframes float {
       0% {
-        transform: translateY(0) rotate(-45deg) scale(1);
+        transform: translateY(0) scale(1) rotate(-45deg);
         opacity: 1;
       }
       100% {
-        transform: translateY(-700px) rotate(-45deg) scale(1.4);
+        transform: translateY(-700px) scale(1.35) rotate(-45deg);
         opacity: 0;
       }
     }
@@ -74,8 +93,12 @@
   <h1>happy 24 moon bebeh 💖</h1>
   <h2>24 Oktober 2025</h2>
   <div id="countdown"></div>
+  <div class="galeri-foto">
+    <img src="AUL 1.jpg" alt="AUL 1" class="fotosayang">
+    <img src="AUL 2.jpg" alt="AUL 2" class="fotosayang">
+    <img src="AUL 3.jpg" alt="AUL 3" class="fotosayang">
+  </div>
   <script>
-    // Target: 25 November 2025
     const nextAnniversary = new Date("2025-11-25T00:00:00");
     function countdown() {
       const now = new Date();
@@ -93,18 +116,20 @@
     }
     setInterval(countdown, 1000);
 
-    // Floating hearts
+    // Banyak love dan acak warna/size
     function createHeart() {
       const heart = document.createElement("div");
       heart.className = "heart";
+      const warna = ["#ff69b4","#e57373","#ba68c8","#f06292","#80deea","#ffb6c1"];
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.backgroundColor = 
-        ["#ff69b4","#f06292","#e57373","#ba68c8","#ffb6c1"][Math.floor(Math.random()*5)];
-      heart.style.animationDuration = (5 + Math.random()*4) + "s";
+      heart.style.backgroundColor = warna[Math.floor(Math.random() * warna.length)];
+      heart.style.opacity = (0.6 + Math.random() * 0.4).toFixed(2);
+      heart.style.width = heart.style.height = (18 + Math.random()*14) +"px";
+      heart.style.animationDuration = (4.5 + Math.random()*4.5) + "s";
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 8000);
+      setTimeout(() => heart.remove(), 9000);
     }
-    setInterval(createHeart, 400);
+    setInterval(createHeart, 180); // semakin kecil, love tambah banyak
   </script>
 </body>
 </html>
