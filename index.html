@@ -86,15 +86,36 @@
         opacity: 0;
       }
     }
+    /* Tombol Musik Styling */
+    #music-btn {
+      position: fixed;
+      z-index: 111;
+      right: 22px; bottom: 24px;
+      background: #fff4fa;
+      border: 2.2px solid #d63384;
+      border-radius: 50%;
+      width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 16px #f0629248;
+      transition: box-shadow .17s, filter .13s;
+      filter: drop-shadow(0 2px 7px #ffb6c122);
+    }
+    #music-btn:active { box-shadow: 0 0px 2px #f0629258;}
+    #music-btn svg { width: 30px; height: 30px; }
+    #music-btn.playing { border: 2.2px solid #50c878; background: #e6ffee;}
+    #music-btn:hover { filter: brightness(1.09);}
     @media (max-width:660px) {
       .galeri-foto { gap: 10px; }
       .fotosayang { max-width: 92vw; }
       h1 { margin-top: 30px; font-size:1.4em;}
+      #music-btn { width:48px; height:48px; right:9px; bottom:12px;}
+      #music-btn svg { width:25px; height:25px;}
     }
   </style>
 </head>
 <body>
-  <audio autoplay loop hidden>
+  <audio id="bgmusic" loop>
     <source src="you-lany.mp3" type="audio/mpeg">
     Browser kamu tidak mendukung musik.
   </audio>
@@ -106,6 +127,13 @@
     <img src="AUL 2.jpg" alt="AUL 2" class="fotosayang">
     <img src="AUL 3.jpg" alt="AUL 3" class="fotosayang">
   </div>
+  <!-- Tombol Musik -->
+  <button id="music-btn" aria-label="Putar/pause musik">
+    <svg id="music-icon" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="11" stroke="#d63384" stroke-width="1.4"/>
+      <path id="icon-shape" d="M9 8V16L16 12L9 8Z" fill="#d63384"/>
+    </svg>
+  </button>
   <script>
     // Countdown ke 25 November 2025
     const nextAnniversary = new Date("2025-11-25T00:00:00");
@@ -139,7 +167,38 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 9000);
     }
-    setInterval(createHeart, 95); // semakin kecil, love tambah banyak
+    setInterval(createHeart, 95);
+
+    // Tombol Musik
+    const audio = document.getElementById('bgmusic');
+    const btn = document.getElementById('music-btn');
+    const icon = document.getElementById('icon-shape');
+    let isPlaying = false;
+    function toggleMusic() {
+      if(audio.paused) {
+        audio.play();
+        btn.classList.add('playing');
+        icon.setAttribute("d", "M5 5V19H10V5H5ZM14 5V19H19V5H14Z"); // Pause icon (2 bars)
+        isPlaying = true;
+      } else {
+        audio.pause();
+        btn.classList.remove('playing');
+        icon.setAttribute("d", "M9 8V16L16 12L9 8Z"); // Play icon (triangle)
+        isPlaying = false;
+      }
+    }
+    btn.addEventListener('click', toggleMusic);
+
+    // Mulai musik ketika user klik dimanapun pertama kali (bypass blokir autoplay)
+    document.addEventListener('click', function initMusic(){
+      if(!isPlaying) {
+        audio.play().catch(() => {});
+        btn.classList.add('playing');
+        icon.setAttribute("d", "M5 5V19H10V5H5ZM14 5V19H19V5H14Z");
+        isPlaying = true;
+      }
+      document.removeEventListener('click', initMusic);
+    }, {once: true});
   </script>
 </body>
 </html>
